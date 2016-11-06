@@ -1,0 +1,183 @@
+{{extend ("./layout")}}
+{{#block ("body")}}
+<div class="aw-container-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="aw-content-wrap clearfix">
+        <div class="col-sm-12 col-md-9 aw-main-content">
+          <div class="aw-mod aw-explore-list">
+            <div class="mod-body">
+              <div class="aw-common-list">
+                <div class="aw-item active" data-topic-id="57,">
+                  <a class="aw-user-name hidden-xs" data-id="3654"
+                     href="http://wenda.golaravel.com/people/%E7%8E%8B%E5%8D%8E%E5%81%A5Ss"
+                     rel="nofollow"><img
+                          src="http://wenda.golaravel.com/static/common/avatar-max-img.png"
+                          alt=""/></a>
+                  <div class="aw-question-content">
+                    <h4>
+                      <a href="http://wenda.golaravel.com/question/2006">文章标题</a>
+                    </h4>
+
+
+                    <p>作者：
+                      <a href="/u/admin"
+                         class="aw-user-name">admin</a>
+				<span class="text-color-999">• 0 个回复 • 5分钟前
+				</span>
+                    </p>
+
+                  </div>
+                </div>
+
+                <div class="aw-item active" data-topic-id="57,">
+                  <a class="aw-user-name hidden-xs" data-id="3654"
+                     href="http://wenda.golaravel.com/people/%E7%8E%8B%E5%8D%8E%E5%81%A5Ss"
+                     rel="nofollow"><img
+                          src="http://wenda.golaravel.com/static/common/avatar-max-img.png"
+                          alt=""/></a>
+                  <div class="aw-question-content">
+                    <h4>
+                      <a href="http://wenda.golaravel.com/question/2006">文章标题</a>
+                    </h4>
+
+
+                    <p>作者：
+                      <a href="/u/admin"
+                         class="aw-user-name">admin</a>
+				<span class="text-color-999">• 0 个回复 • 5分钟前
+				</span>
+                    </p>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="mod-footer">
+              <div class="page-control">
+                <ul id="pagination-demo" class="pagination pull-right">
+                  <li class="active"><a href="javascript:;">1</a></li>
+                  <li>
+                    <a href="http://wenda.golaravel.com/sort_type-new__day-0__is_recommend-0__page-2">2</a>
+                  </li>
+                  <li>
+                    <a href="http://wenda.golaravel.com/sort_type-new__day-0__is_recommend-0__page-3">3</a>
+                  </li>
+                  <li>
+                    <a href="http://wenda.golaravel.com/sort_type-new__day-0__is_recommend-0__page-4">4</a>
+                  </li>
+                  <li>
+                    <a href="http://wenda.golaravel.com/sort_type-new__day-0__is_recommend-0__page-2">
+                      &gt;</a></li>
+                  <li>
+                    <a href="http://wenda.golaravel.com/sort_type-new__day-0__is_recommend-0__page-42">
+                      &gt;&gt;</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<input type="hidden" id="totalPage" value="{{totalPage}}">
+
+{{/block}}
+
+{{#block ("foot")}}
+
+<script type="text/template" id="template">
+  <% articles.forEach(function(article){ %>
+    <div class="aw-item active" data-topic-id="57,">
+      <a class="aw-user-name hidden-xs" data-id="3654"
+         href="/people/"
+         rel="nofollow"><img
+              src="/www/img/avatar.png"
+              alt=""/></a>
+      <div class="aw-question-content">
+        <h4>
+          <a href="/article/<%= article.id %>"><%= article.title %></a>
+        </h4>
+
+
+        <p>作者:
+          <a href="/people/"
+             class="aw-user-name"><%= article.username %></a>
+          <span class="text-color-999">• 0 个回复 • <%= article.time %>
+          </span>
+        </p>
+
+      </div>
+    </div>
+  <% }); %>
+
+</script>
+<script src="/www/vendor/underscore/underscore.js"></script>
+<script src="/www/vendor/jquery-pagination/jquery.twbsPagination.js"></script>
+<script>
+  "use strict";
+
+  $('#pagination-demo').twbsPagination({
+    totalPages: $('#totalPage').val(),
+    visiblePages: 5,
+    first: '<<',
+    prev: '<',
+    next: '>',
+    last: '>>',
+    onPageClick: function (event, page) {
+      // 当用户点击页码的页码的时候，获取该页码。向后台发起请求，后台根据页码去查询数据，
+      // 当服务器查询到数据之后，将该数据响应给前台客户端浏览器（json）
+      // 客户单拿到这个json之后，编译模板，注入数据（拼接html）
+      // 先将原有的html字符串清空掉，
+      // 把服务器给的最新的拼接完的html字符串append到容器中
+
+      // /page/:pageNumber
+      $.ajax({
+        url:'/page/'+page,
+        type:"get",
+        dataType:'json',
+        success:function (data) {
+
+          var result = data.result;
+
+          // 获取模板字符串
+          var tmpStr = $('#template').html();
+
+          // 编译模板
+          var compiled = _.template(tmpStr);
+
+          // 注入数据吗，得到拼接完的html字符串
+          var htmlStr = compiled({
+            articles:result
+          });
+
+          // 直接给 容器 重新设置 html就可以了
+          $('.aw-common-list').html(htmlStr);
+
+        },
+        error:function () {
+
+        }
+      })
+
+    }
+  });
+
+  // 异步无刷新分页，必须使用ajax技术来实现
+
+  // pageSize 5   pageNumber 2
+  // limit 后面如果只输入了一个参数：表示要take（取）多少
+  // limit 后面如果输入了两个参数，第一个参数表示要skip多少，然后take多少
+  // select * from articles limit (2-1)*5,5
+
+  //  Math.ceil('33.2');
+  // floor()
+  // 加入有100条记录， 每页显示3条数据，一共分多少页
+  // 前台ajax请求的时候，告诉服务器要查看第几页，而每页显示多少条。由服务器决定，分多少页0
+  //
+
+</script>
+{{/block}}

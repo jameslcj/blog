@@ -1,0 +1,29 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "it's a blog",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "lc",
+  "license": "MIT",
+  "dependencies": {
+    "blueimp-file-upload-node": "^2.1.0",
+    "body-parser": "^1.15.0",
+    "ccap": "^0.6.10",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "formidable": "^1.0.17",
+    "gm": "^1.21.1",
+    "jquery-file-upload-middleware": "^0.1.7",
+    "markdown-it": "^6.0.0",
+    "moment": "^2.12.0",
+    "mysql": "^2.10.2",
+    "utility": "^1.6.0",
+    "xtemplate": "^4.5.1",
+    "xtpl": "^3.2.0"
+  }
+}

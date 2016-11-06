@@ -1,0 +1,22 @@
+{
+  "name": "blog",
+  "description": "it's a blog",
+  "main": "app.js",
+  "authors": [
+    "lc"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "underscore": "^1.8.3"
+  }
+}
